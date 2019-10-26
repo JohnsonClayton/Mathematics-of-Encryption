@@ -17,6 +17,8 @@ Your message has been decoded: THIS IS A TEST MESSAGE
 ```
 
 It is important to note that the message will replace all special characters with a space by default. Additionally, the code is meant to only handle upper case letters. For this reason, all messages are automatically converted to upper case, thus all case-sensativity is lost.  
+#### Dependencies
+This program should run without errors on Windows/Mac/Linux with Python (v2 or v3). If any issues arise, please contact the owner. 
 
 ## Frequency Analysis
 #### How useful is this encryption scheme?  
