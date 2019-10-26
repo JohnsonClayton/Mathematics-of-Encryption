@@ -1,4 +1,14 @@
 #! /bin/python3
+'''
+encryption_master.py
+
+Clayton Johnson, Chris Vandermeer, Caden Anderson
+
+The Mathematics of Encryption
+Dr. Reitenbach
+
+'''
+
 import argparse
 import math
 import sys
@@ -17,7 +27,10 @@ def matrify(string=''):
 
 	for ch in string:
 		# Set current position in matrix equal to the index of the character
-		converted_matrix[row].append(conversion_string.index(ch))
+		if ch in conversion_string:
+			converted_matrix[row].append(conversion_string.index(ch))
+		else:
+			converted_matrix[row].append(0)
 		
 		# Update position in the matrix
 		row = (row + 1) % MAX_ROWS
