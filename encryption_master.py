@@ -1,7 +1,7 @@
 #! /bin/python3
 import argparse
 import math
-import numpy as np
+import sys
 
 def matrify(string=''):
 	# Converts a given string to a 4xn-matrix padded with zeros
@@ -74,10 +74,11 @@ def matrix_multiply(left=[], right=[]):
 				# Add this many rows of the row_vector to the matrix
 				new_matrix.append(row_vector)
 
-			#print(new_matrix)
-			# Compute the multiplication
-			# I apologize in particular for this line because I didn't realize numpy existed until most of this was already completed.
-			new_matrix = (np.matrix(left)*np.matrix(right)).tolist()				
+			zip_b = zip(*right)
+			zip_b = list(zip_b)
+
+			# This was acquired by https://stackoverflow.com/questions/10508021/matrix-multiplication-in-pure-python 
+			new_matrix = [[sum(ele_a*ele_b for ele_a, ele_b in zip(row_a, col_b)) for col_b in zip_b] for row_a in left]
 
 			# Mod all values by 27
 			test_matrix = mod_matrix(new_matrix, 27)			
@@ -92,33 +93,42 @@ def matrix_multiply(left=[], right=[]):
 
 def encode(message=''):
 	print('encoding {}'.format(message))
+
+	# This is our A
 	encryption_key = [[ 14, 12, 26, 15],
 	       		  [  8,  0,  7,  8],
 	      		  [  6, 13, 20,  7],
 	       		  [  7, 18, 25,  8]]
+
+	# This is our P
 	message_matrix = matrify(message)
-	#print('Sending key {} and then message {}'.format(encryption_key, message_matrix))
+
+	# AP=C returns our encoded matrix
 	encoded_message_matrix = matrix_multiply(encryption_key, message_matrix)
 	encoded_message = unmatrify(encoded_message_matrix)
 	print('Your message has been encoded: {}'.format(encoded_message))
 
 def decode(message=''):
 	print('decoding {}'.format(message))
+	# This is our B
 	decryption_key = [[  9, 19, 18, 26],
 	       		  [ 24, 26, 25,  5],
 	      		  [  2,  2,  3, 22],
 	       		  [ 23,  3,  3,  2]]
+
+	# This is our C
 	message_matrix = matrify(message)
-	#print('Sending key {} and then message {}'.format(decryption_key, message_matrix))
+
+	# BC=P returns our original message
 	decoded_message_matrix = matrix_multiply(decryption_key, message_matrix)
 	decoded_message = unmatrify(decoded_message_matrix)
 	print('Your message has been decoded: {}'.format(decoded_message))
 
 if __name__=='__main__':
-	#Usage: $ encryption_master.py --[encode|decode] 'message' 
+	# Usage: $ python encryption_master.py --[encode|decode] 'message' 
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--encode', help='encode a given message')
-	parser.add_argument('--decode', help='decode a given message')
+	parser.add_argument('--encode', help='encode given \'message\'')
+	parser.add_argument('--decode', help='decode given \'message\'')
 	args = parser.parse_args()
 
 	if args.encode or args.decode:
