@@ -1,5 +1,5 @@
 # Mathematics of Encryption
-## Differential Equations and Linear Algebra - Assistant Professor Dr. Markus Reitenbach
+## Differential Equations and Linear Algebra - Associate Professor Dr. Markus Reitenbach
 ### Clayton Johnson, Christopher Vandermeer, Caden Anderson
 
 ## Usage
